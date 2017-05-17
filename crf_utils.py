@@ -119,7 +119,6 @@ def word2features(tokens, i):
         features.append('EOS')
     return features
 
-
 def token2features(tokens):
     return [word2features(tokens, i) for i in range(len(tokens))]
 
@@ -128,6 +127,25 @@ def sent2features(sent):
 
 def token2labels(tokens):
     return [label for (token, postag, label) in tokens]
+
+def token2json(tokens):
+    """
+    Aim for saving training tokens to json format
+    """
+    tokens_json = []
+    for token in tokens:
+        tokens_json.append({'text': token[0],
+                            'postag': token[1],
+                            'class': token[2]})
+    return tokens_json # save this later as training set
+
+def json2token(tokens_json):
+    tokens = []
+    for token in tokens_json:
+        tokens.append((token['text'],
+                       token['postag'],
+                       token['class']))
+    return tokens
 
 def train(tokens_all, model_name='affil_parser.crfsuite'):
     """
