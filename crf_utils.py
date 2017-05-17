@@ -75,15 +75,14 @@ def affils2token(affiliations):
     Sample affiliations from MEDLINE, tag it using rule-based
     rule-based affiliation parser
     """
-    tokens_tag = []
+    tokens_all = []
     for affiliation_text in affiliations:
-        token_tag = affil2token(affiliation_text)
-        tokens_tag.append(token_tag)
-    return tokens_tag
+        tokens = affil2token(affiliation_text)
+        tokens_all.append(tokens)
+    return tokens_all
 
-def word2features(sent, i):
-    word = sent[i][0]
-    postag = sent[i][1]
+def word2features(tokens, i):
+    word, postag = tokens[i][0], tokens[i][1]
     features = [
         'bias',
         'word.lower=' + word.lower(),
@@ -96,8 +95,7 @@ def word2features(sent, i):
         'postag[:2]=' + postag[:2],
     ]
     if i > 0:
-        word1 = sent[i-1][0]
-        postag1 = sent[i-1][1]
+        word1, postag1 = tokens[i-1][0], tokens[i-1][1]
         features.extend([
             '-1:word.lower=' + word1.lower(),
             '-1:word.istitle=%s' % word1.istitle(),
@@ -108,9 +106,8 @@ def word2features(sent, i):
     else:
         features.append('BOS')
 
-    if i < len(sent)-1:
-        word1 = sent[i+1][0]
-        postag1 = sent[i+1][1]
+    if i < len(tokens) - 1:
+        word1, postag1 = tokens[i+1][0], tokens[i+1][1]
         features.extend([
             '+1:word.lower=' + word1.lower(),
             '+1:word.istitle=%s' % word1.istitle(),
@@ -122,24 +119,22 @@ def word2features(sent, i):
         features.append('EOS')
     return features
 
-def token2features(sent):
-    """
-    plain text to token
-    """
-    return [word2features(sent, i) for i in range(len(sent))]
+
+def token2features(tokens):
+    return [word2features(tokens, i) for i in range(len(tokens))]
 
 def sent2features(sent):
     return token2features(affil2token(sent))
 
-def sent2labels(sent):
-    return [label for (token, postag, label) in sent]
+def token2labels(tokens):
+    return [label for (token, postag, label) in tokens]
 
-def train(tokens_tag, model_name='affil_parser.crfsuite'):
+def train(tokens_all, model_name='affil_parser.crfsuite'):
     """
     Training
     """
-    X_train = [sent2features(s) for s in tokens_tag]
-    y_train = [sent2labels(s) for s in tokens_tag]
+    X_train = [token2features(tokens) for tokens in tokens_all]
+    y_train = [token2labels(tokens) for tokens in tokens_all]
 
     trainer = pycrfsuite.Trainer(verbose=False)
     for xseq, yseq in zip(X_train, y_train):

@@ -9,10 +9,12 @@ how to implement using [python-crfsuite](https://github.com/scrapinghub/python-c
 
 ```python
 import pycrfsuite
-from utils import affil2token, token2features
+from crf_utils import affil2token, token2features
 
 text = """
-  Department of Agricultural and Biosystems Engineering, Iowa State University, Ames, IA 50011-3080, USA; Department of Energy, Power Engineering and Environment, Faculty of Mechanical Engineering and Naval Architecture, University of Zagreb, Ivana Lucica 5, HR-10000 Zagreb, Croatia; Department of Civil, Construction and Environmental Engineering, Iowa State University, Ames, IA 50011-3232, USA.
+  Department of Agricultural and Biosystems Engineering, Iowa State University, Ames, IA 50011-3080, USA;
+  Department of Energy, Power Engineering and Environment, Faculty of Mechanical Engineering and Naval Architecture, University of Zagreb, Ivana Lucica 5, HR-10000 Zagreb, Croatia;
+  Department of Civil, Construction and Environmental Engineering, Iowa State University, Ames, IA 50011-3232, USA.
 """
 
 tagger = pycrfsuite.Tagger()
@@ -26,4 +28,5 @@ token_predictions = list(zip(token_tag, predictions)) # output
 ## Requirements
 
 - [pycrfsuite](https://github.com/scrapinghub/python-crfsuite)
+- [spacy](https://spacy.io/)
 - [affiliation_parser](https://github.com/titipata/affiliation_parser)
