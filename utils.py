@@ -25,7 +25,7 @@ def get_unique_affiliation(affiliation_list):
     affiliations_split = pd.unique(affiliations_split)
     return affiliations_split
 
-def affil2token(affiliation_text):
+def affil2token(affiliation_text, tag=True):
     """
     Using rule-based parse affiliation to parse affiliation
 
@@ -43,27 +43,31 @@ def affil2token(affiliation_text):
         ]
     """
     token_tag = []
-    parsed = parse_affil(affiliation_text)
-    department = parsed['department']
-    institution = parsed['institution']
-    location = parsed['location'].replace('Electronic address:', '').strip()
-    country = parsed['country']
-    email = parsed['email']
-    for token in nlp(affiliation_text):
-        if token.text.lower() in department.lower():
-            token_tag.append((token.text, 'department'))
-        elif token.text.lower() in institution.lower():
-            token_tag.append((token.text, 'institution'))
-        elif token.text.lower() in location.lower():
-            token_tag.append((token.text, 'location'))
-        elif token.text.lower() in country.lower():
-            token_tag.append((token.text, 'country'))
-        elif token.text.lower() in email.lower():
-            token_tag.append((token.text, 'email'))
-        else:
-            token_tag.append((token.text, 'unknown'))
-    token_pos = nlp(' '.join(t[0] for t in tokens))
-    token_tag = [(x1[0], x2, x1[1]) for (x1, x2) in zip(token_tag, [t.pos_ for t in token_pos])]
+    if tag:
+        parsed = parse_affil(affiliation_text)
+        department = parsed['department']
+        institution = parsed['institution']
+        location = parsed['location'].replace('Electronic address:', '').strip()
+        country = parsed['country']
+        email = parsed['email']
+        for token in nlp(affiliation_text):
+            if token.text.lower() in department.lower():
+                token_tag.append((token.text, 'department'))
+            elif token.text.lower() in institution.lower():
+                token_tag.append((token.text, 'institution'))
+            elif token.text.lower() in location.lower():
+                token_tag.append((token.text, 'location'))
+            elif token.text.lower() in country.lower():
+                token_tag.append((token.text, 'country'))
+            elif token.text.lower() in email.lower():
+                token_tag.append((token.text, 'email'))
+            else:
+                token_tag.append((token.text, 'unknown'))
+        token_pos = nlp(' '.join(t[0] for t in tokens))
+        token_tag = [(x1[0], x2, x1[1]) for (x1, x2) in zip(token_tag, [t.pos_ for t in token_pos])]
+    else:
+        for token in nlp(affiliation_text):
+            token_tag.append((token.text, token.pos_))
     return token_tag
 
 def affils2token(affiliations):
