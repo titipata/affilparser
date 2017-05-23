@@ -1,0 +1,1 @@
+from .affilparser import AffiliationParser
