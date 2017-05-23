@@ -1,3 +1,4 @@
+import re
 import spacy
 import pycrfsuite
 import numpy as np
