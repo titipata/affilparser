@@ -4,7 +4,8 @@ DEPARTMENT = frozenset([
     'Faculty of', 'Unit ', 'Graduate School of', 'Research Unit',
     'Program in', 'Laboratorio', 'Laboratories',
     'Laboratory', 'Genomics Center', 'Haematological',
-    'Environmental Engineering', 'Power Engineering', 'Biosystems Engineering'
+    'Environmental Engineering', 'Power Engineering', 'Biosystems Engineering',
+    'Orthopaedic Department'
 ])
 
 

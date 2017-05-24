@@ -144,7 +144,7 @@ class AffiliationParser(object):
         sep = []
         r_prev = 0
         for r, ((text1, tag1), (text2, tag2)) in enumerate(zip(predictions_rm, predictions_rm[1:] + [('', '')])):
-            for t1, t2 in product(['addr-line', 'country', 'zipcode', 'email'], ['department', 'institution']):
+            for t1, t2 in product(['addr-line', 'country', 'zipcode', 'email'], ['department']):
                 if tag1 == t1 and tag2 == t2:
                     sep.append((r_prev, r + 1))
                     r_prev = r + 1
@@ -172,5 +172,8 @@ class AffiliationParser(object):
         predictions_chunk = self.chunk_prediction(predictions)
         predictions_chunk = self.correct_chunk_prediction(predictions_chunk)
         prediction_sep = self.separate_prediction(predictions_chunk)
-        prediction_sep = self.chunk_prediction(prediction_sep) # chunk again
+        if any(isinstance(e, list) for e in prediction_sep):
+            prediction_sep = [self.chunk_prediction(pred) for pred in prediction_sep]
+        else:
+            prediction_sep = self.chunk_prediction(prediction_sep)
         return prediction_sep
