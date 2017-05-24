@@ -2,7 +2,7 @@ import os
 import re
 import spacy
 import pycrfsuite
-from itertools import groupby, product
+from itertools import groupby, product, chain
 from .keywords import EMAIL, ZIP_CODE, COUNTRY, UNIVERSITY_ABBR, DEPARTMENT, STREET
 
 nlp = spacy.load('en')
@@ -84,7 +84,7 @@ class AffiliationParser(object):
                 predictions_correct.append((text, 'country'))
             elif any([re.match(e, text) for e in EMAIL]):
                 predictions_correct.append((text, 'email'))
-            elif (text.isdigit() and len(text) != 5) or text in STREET:
+            elif (text.isdigit() and len(text) != 5) or text in STREET or (tag == 'zipcode' and not text.isdigit()):
                 predictions_correct.append((text, 'addr-line'))
             elif any([re.match(e, text) for e in ZIP_CODE]) or (text.isdigit() and len(text) == 5):
                 predictions_correct.append((text, 'zipcode'))
@@ -174,6 +174,9 @@ class AffiliationParser(object):
         prediction_sep = self.separate_prediction(predictions_chunk)
         if any(isinstance(e, list) for e in prediction_sep):
             prediction_sep = [self.chunk_prediction(pred) for pred in prediction_sep]
+            prediction_sep_merge = list(chain.from_iterable(prediction_sep))
+            if len(prediction_sep_merge) <= 4:
+                prediction_sep = prediction_sep_merge
         else:
             prediction_sep = self.chunk_prediction(prediction_sep)
         return prediction_sep

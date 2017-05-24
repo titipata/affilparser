@@ -107,5 +107,5 @@ UNIVERSITY_ABBR = frozenset([
 
 
 STREET = frozenset([
-    'Street', 'Road', 'Blvd'
+    'Street', 'Road', 'Blvd', 'University Ave'
 ])
