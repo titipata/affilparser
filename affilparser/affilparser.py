@@ -3,7 +3,7 @@ import re
 import spacy
 import pycrfsuite
 from itertools import groupby
-from .keywords import EMAIL, ZIP_CODE, COUNTRY
+from .keywords import EMAIL, ZIP_CODE, COUNTRY, UNIVERSITY_ABBR, DEPARTMENT
 
 nlp = spacy.load('en')
 MODEL_PATH = os.path.join('model', 'affilparser.crfsuite')
@@ -80,6 +80,8 @@ class AffiliationParser(object):
                 predictions_correct.append((text, 'country'))
             elif any([re.match(e, text) for e in EMAIL]):
                 predictions_correct.append((text, 'email'))
+            elif any([re.match(e, text) for e in ZIP_CODE]):
+                predictions_correct.append((text, 'zipcode'))
             else:
                 predictions_correct.append((text, tag))
         return predictions_correct
@@ -98,6 +100,17 @@ class AffiliationParser(object):
                 i += 1
         return predictions_chunk
 
+    def correct_chunk_prediction(self, predictions):
+        predictions_correct = []
+        for (text, tag) in predictions:
+            if any([e in text for e in DEPARTMENT]):
+                predictions_correct.append((text, 'department'))
+            elif any([e in text.lower() for e in UNIVERSITY_ABBR]):
+                predictions_correct.append((text, 'institution'))
+            else:
+                predictions_correct.append((text, tag))
+        return predictions_correct
+
     def chunk_prediction(self, predictions):
         return [(' '.join([g_[0] for g_ in g]).strip(), tag)
                 for tag, g in groupby(predictions, lambda x: x[1])]
@@ -111,4 +124,5 @@ class AffiliationParser(object):
         predictions = self.chunk_address(predictions)
         predictions = self.correct_prediction(predictions)
         predictions_chunk = self.chunk_prediction(predictions)
+        predictions_chunk = self.correct_chunk_prediction(predictions_chunk)
         return predictions_chunk

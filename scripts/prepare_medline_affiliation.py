@@ -1,4 +1,4 @@
-
+import pandas as pd
 
 def get_unique_affiliation(affiliation_list):
     """

@@ -77,6 +77,7 @@ ZIP_CODE = frozenset([
     r'(\d{5})', r'(\d{5})([-])?(\d{4})?', '(\d{3})([-])?(\d{4})?'
 ])
 
+
 COUNTRY = frozenset([
     'Argentina', 'Armenia', 'Australia', 'Belgium',
     'Brazil', 'Croatia', 'Cyprus', 'Denmark',
@@ -87,4 +88,18 @@ COUNTRY = frozenset([
     'Norway', 'Peru', 'Philippines', 'Russia',
     'Spain', 'Switzerland', 'Taiwan', 'Tanzania',
     'Turkey', 'U.K.', 'U.S.A', 'UK.', 'USA', 'Vietnam'
+])
+
+
+UNIVERSITY_ABBR = frozenset([
+    'ucla', 'uc los angeles',
+    'ucsd', 'us san diego',
+    'caltech',
+    'ccny',
+    'carnegie mellon university', 'cmu',
+    'georgia tech',
+    'pennsylvania state university', 'penn state',
+    'university of massachusetts amherst', 'umass',
+    'city university of new york', ' cuny',
+    'havard university school of', 'harvard school of'
 ])
