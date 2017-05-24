@@ -64,7 +64,7 @@ class AffiliationParser(object):
         """
         tokens = []
         for token in nlp(text):
-            tokens.append((token.text, token.pos_))
+            tokens.append((token.text.strip(), token.pos_))
         return tokens
 
     def token2features(self, tokens):
