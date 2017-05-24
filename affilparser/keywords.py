@@ -75,3 +75,15 @@ EMAIL = frozenset([
 ZIP_CODE = frozenset([
     r'(\d{5})', r'(\d{5})([-])?(\d{4})?', '(\d{3})([-])?(\d{4})?'
 ])
+
+COUNTRY = frozenset([
+    'Argentina', 'Armenia', 'Australia', 'Belgium',
+    'Brazil', 'Croatia', 'Cyprus', 'Denmark',
+    'Edinburge', 'Edinburgh', 'Egypt', 'England',
+    'Finland', 'France', 'Germany', 'Greece',
+    'Israel', 'Italy', 'Japan', 'Korea',
+    'Kuwait', 'Lithuania', 'Netherlands', 'Nigeria',
+    'Norway', 'Peru', 'Philippines', 'Russia',
+    'Spain', 'Switzerland', 'Taiwan', 'Tanzania',
+    'Turkey', 'U.K.', 'U.S.A', 'UK.', 'USA', 'Vietnam'
+])
