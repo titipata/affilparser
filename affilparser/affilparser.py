@@ -2,14 +2,18 @@ import os
 import re
 import spacy
 import pycrfsuite
-from itertools import groupby
+from itertools import groupby, product
 from .keywords import EMAIL, ZIP_CODE, COUNTRY, UNIVERSITY_ABBR, DEPARTMENT
 
 nlp = spacy.load('en')
 MODEL_PATH = os.path.join('model', 'affilparser.crfsuite')
 
 class AffiliationParser(object):
+    """AffiliationParser
 
+    Conditional Random Field parser for MEDLINE/Pubmed
+    affiliation string
+    """
     def __init__(self):
         self.tagger = self.load_model(model_name=MODEL_PATH)
 
@@ -90,7 +94,7 @@ class AffiliationParser(object):
         predictions_chunk = []
         predictions_zip = list(zip(predictions, predictions[1:] + [('', '')], predictions[2:] + 2 * [('', '')]))
         i = 0
-        while i < len(predictions) - 2:
+        while i <= len(predictions) - 1:
             (text, pred), (text1, pred1), (text2, pred2) = predictions_zip[i]
             if text.isdigit() and text1 == '-' and text2.isdigit():
                 predictions_chunk.append((text + text1 + text2, pred))
@@ -115,6 +119,30 @@ class AffiliationParser(object):
         return [(' '.join([g_[0] for g_ in g]).strip(), tag)
                 for tag, g in groupby(predictions, lambda x: x[1])]
 
+    def separate_prediction(self, predictions_chunk):
+        """
+        Chunking output in case there are more than one affiliations
+        """
+        predictions_rm = [(text, tag) for (text, tag) in predictions_chunk if not tag in ('unknown', 'bold')]
+        sep = []
+        r_prev = 0
+        for r, ((text1, tag1), (text2, tag2)) in enumerate(zip(predictions_rm, predictions_rm[1:] + [('', '')])):
+            for t1, t2 in product(['addr-line', 'country', 'zipcode', 'email'], ['department', 'institution']):
+                if tag1 == t1 and tag2 == t2:
+                    sep.append((r_prev, r + 1))
+                    r_prev = r + 1
+        sep.append((r_prev, len(predictions_rm)))
+        if len(sep) > 1:
+            prediction_sep = []
+            index = 0
+            for start, end in sep:
+                prediction_sep += predictions_rm[index:start]
+                prediction_sep.append(predictions_rm[start:end])
+                index = end
+        else:
+            prediction_sep = predictions_rm
+        return prediction_sep
+
     def parse(self, text):
         tokens = self.text2token(text)
         word_features = self.token2features(tokens)
@@ -125,4 +153,5 @@ class AffiliationParser(object):
         predictions = self.correct_prediction(predictions)
         predictions_chunk = self.chunk_prediction(predictions)
         predictions_chunk = self.correct_chunk_prediction(predictions_chunk)
-        return predictions_chunk
+        prediction_sep = self.separate_prediction(predictions_chunk)
+        return prediction_sep

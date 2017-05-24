@@ -112,5 +112,5 @@ if __name__ == '__main__':
         'max_iterations': 50,  # stop earlier
         'feature.possible_transitions': True
     })
-    model_name = 'affil_parser_oa.crfsuite'
+    model_name = 'affilparser.crfsuite'
     trainer.train(model_name)
