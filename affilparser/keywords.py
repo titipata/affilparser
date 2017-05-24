@@ -74,7 +74,7 @@ EMAIL = frozenset([
 
 
 ZIP_CODE = frozenset([
-    r'(\d{5})', r'(\d{5})([-])?(\d{4})?', '(\d{3})([-])?(\d{4})?'
+    r'(\d{5})([-])?(\d{4})?', '(\d{3})([-])?(\d{4})?'
 ])
 
 
@@ -102,4 +102,9 @@ UNIVERSITY_ABBR = frozenset([
     'university of massachusetts amherst', 'umass',
     'city university of new york', ' cuny',
     'havard university school of', 'harvard school of'
+])
+
+
+STREET = frozenset([
+    'Street', 'Road', 'Blvd'
 ])

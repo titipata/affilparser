@@ -3,7 +3,7 @@ import re
 import spacy
 import pycrfsuite
 from itertools import groupby, product
-from .keywords import EMAIL, ZIP_CODE, COUNTRY, UNIVERSITY_ABBR, DEPARTMENT
+from .keywords import EMAIL, ZIP_CODE, COUNTRY, UNIVERSITY_ABBR, DEPARTMENT, STREET
 
 nlp = spacy.load('en')
 MODEL_PATH = os.path.join('model', 'affilparser.crfsuite')
@@ -84,7 +84,9 @@ class AffiliationParser(object):
                 predictions_correct.append((text, 'country'))
             elif any([re.match(e, text) for e in EMAIL]):
                 predictions_correct.append((text, 'email'))
-            elif any([re.match(e, text) for e in ZIP_CODE]):
+            elif (text.isdigit() and len(text) != 5) or text in STREET:
+                predictions_correct.append((text, 'addr-line'))
+            elif any([re.match(e, text) for e in ZIP_CODE]) or (text.isdigit() and len(text) == 5):
                 predictions_correct.append((text, 'zipcode'))
             else:
                 predictions_correct.append((text, tag))
@@ -99,6 +101,21 @@ class AffiliationParser(object):
             if text.isdigit() and text1 == '-' and text2.isdigit():
                 predictions_chunk.append((text + text1 + text2, pred))
                 i += 3
+            else:
+                predictions_chunk.append((text, pred))
+                i += 1
+        return predictions_chunk
+
+    def chunk_zipcode(self, predictions):
+        predictions_chunk = []
+        predictions_zip = list(zip(predictions, predictions[1:] + [('', '')], predictions[2:] + 2 * [('', '')]))
+        i = 0
+        while i <= len(predictions) - 1:
+            (text, pred), (text1, pred1), (text2, pred2) = predictions_zip[i]
+            if pred == 'addr-line' and pred1 == 'zipcode' and pred2 == 'addr-line':
+                predictions_chunk.append((text, pred))
+                predictions_chunk.append((text1, 'addr-line'))
+                i += 2
             else:
                 predictions_chunk.append((text, pred))
                 i += 1
@@ -151,7 +168,9 @@ class AffiliationParser(object):
         predictions = [(text, pred) for (text, postag), pred in zip_pred]
         predictions = self.chunk_address(predictions)
         predictions = self.correct_prediction(predictions)
+        predictions = self.chunk_zipcode(predictions)
         predictions_chunk = self.chunk_prediction(predictions)
         predictions_chunk = self.correct_chunk_prediction(predictions_chunk)
         prediction_sep = self.separate_prediction(predictions_chunk)
+        prediction_sep = self.chunk_prediction(prediction_sep) # chunk again
         return prediction_sep
