@@ -87,7 +87,7 @@ COUNTRY = frozenset([
     'Israel', 'Italy', 'Japan', 'Korea',
     'Kuwait', 'Lithuania', 'Netherlands', 'Nigeria',
     'Norway', 'Peru', 'Philippines', 'Russia',
-    'Spain', 'Switzerland', 'Taiwan', 'Tanzania',
+    'Spain', 'Switzerland', 'Tanzania',
     'Turkey', 'U.K.', 'U.S.A', 'UK.', 'USA', 'Vietnam'
 ])
 
