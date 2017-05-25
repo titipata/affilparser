@@ -5,7 +5,8 @@ DEPARTMENT = frozenset([
     'Program in', 'Laboratorio', 'Laboratories',
     'Laboratory', 'Genomics Center', 'Haematological',
     'Environmental Engineering', 'Power Engineering', 'Biosystems Engineering',
-    'Orthopaedic Department'
+    'Orthopaedic Department', 'Clinic for', 'Occupational Therapy Department',
+    'Surgery Program'
 ])
 
 

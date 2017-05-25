@@ -1,7 +1,7 @@
 import re
 import spacy
 import pycrfsuite
-from keywords import DEPARTMENT, INSTITUTE
+from keywords import DEPARTMENT, INSTITUTE, EMAIL, ZIP_CODE
 
 nlp = spacy.load('en')
 
