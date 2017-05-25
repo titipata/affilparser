@@ -1,6 +1,6 @@
 DEPARTMENT = frozenset([
     'Section of', 'Section for', 'Division of', 'Department of', 'Departamento de',
-    'Department for', 'Departments of', 'Departments for',
+    'Department for', 'Departments of', 'Departments for', 'Dept of ', 'Key Lab of ',
     'Departamento de', 'Departament de', 'Dipartimento di',
     'Faculty of', 'Facultad de',
     'Unit ', 'Graduate School of', 'Research Unit',
@@ -13,7 +13,8 @@ DEPARTMENT = frozenset([
     'Surgery Department', 'Institute of Psychiatry',
     'Institute of Anesthesiology', 'Institute of Physics and Astronomy',
     'Clinique de', 'Residency Program', 'The Centre for Rural',
-    'Istituto di Clinica', 'Institute for Noise', 'Istituto di'
+    'Istituto di Clinica', 'Institute for Noise', 'Istituto di',
+    'Radiology Department',
 ])
 
 
@@ -102,15 +103,15 @@ COUNTRY = frozenset([
 
 
 UNIVERSITY_ABBR = frozenset([
-    'ucla', 'uc los angeles',
-    'ucsd', 'us san diego',
-    'caltech',
-    'ccny',
-    'carnegie mellon university', 'cmu',
+    'ucla ', 'uc los angeles',
+    'ucsd ', 'us san diego',
+    'caltech ',
+    'ccny ',
+    'carnegie mellon university', 'cmu ',
     'georgia tech',
     'pennsylvania state university', 'penn state',
-    'university of massachusetts amherst', 'umass',
-    'city university of new york', ' cuny',
+    'university of massachusetts amherst', 'umass ',
+    'city university of new york', 'cuny ',
     'havard university school of', 'harvard school of'
 ])
 
