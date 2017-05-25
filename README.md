@@ -1,13 +1,13 @@
 # Affiliation Parser
 
 Python Conditional Random Field (CRF) Parser for Affiliation String in MEDLINE and Pubmed OA.
-
-
-## Example
-
-We implement the parser using [python-crfsuite](https://github.com/scrapinghub/python-crfsuite).
-See this [example](https://github.com/scrapinghub/python-crfsuite/blob/master/examples/CoNLL%202002.ipynb)
+We implement the parser using [python-crfsuite](https://github.com/scrapinghub/python-crfsuite). See this [example](https://github.com/scrapinghub/python-crfsuite/blob/master/examples/CoNLL%202002.ipynb)
 on how to implement.
+
+
+## Usage
+
+You can create class and use `parse` to parse affilition string.
 
 ```python
 from affilparser import AffiliationParser
@@ -21,6 +21,7 @@ text = """
 parser = AffiliationParser()
 parsed_affil = parser.parse(text)
 ```
+
 
 ## Training dataset
 
@@ -38,21 +39,26 @@ We did some preprocessing to make it into tokens in `(text, postag, label)` form
 Conditional Random Field. Example of the training is as follows.
 
 ```python
-[('Johns', 'PROPN', 'department'),
- ('Hopkins', 'PROPN', 'department'),
- ('University', 'PROPN', 'department'),
- ('Applied', 'PROPN', 'department'),
- ('Physics', 'PROPN', 'department'),
- ('Laboratory', 'PROPN', 'department'),
+[('Department', 'PROPN', 'department'),
+ ('of', 'ADP', 'department'),
+ ('Orthopaedics', 'PROPN', 'department'),
  (',', 'PUNCT', 'unknown'),
- ('Laurel', 'PROPN', 'addr-line'),
+ ('Chonnam', 'PROPN', 'institution'),
+ ('National', 'PROPN', 'institution'),
+ ('University', 'PROPN', 'institution'),
+ ('Medical', 'PROPN', 'institution'),
+ ('School', 'PROPN', 'institution'),
+ ('and', 'CCONJ', 'institution'),
+ ('Hospital', 'PROPN', 'institution'),
  (',', 'PUNCT', 'unknown'),
- ('MD', 'PROPN', 'addr-line'),
+ ('Gwangju', 'PROPN', 'addr-line'),
  (',', 'PUNCT', 'unknown'),
- ('USA', 'PROPN', 'country')]
+ ('South', 'PROPN', 'country'),
+ ('Korea', 'PROPN', 'country')]
 ```
 
-We also made the dataset available in JSON format [here](https://s3-us-west-2.amazonaws.com/affilparser/training_affiliation.json).
+We also made the dataset available in JSON format that you can download
+[here](https://s3-us-west-2.amazonaws.com/affilparser/training_affiliation.json).
 
 
 ## Requirements

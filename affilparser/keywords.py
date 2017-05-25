@@ -1,12 +1,19 @@
 DEPARTMENT = frozenset([
     'Section of', 'Section for', 'Division of', 'Department of', 'Departamento de',
     'Department for', 'Departments of', 'Departments for',
-    'Faculty of', 'Unit ', 'Graduate School of', 'Research Unit',
+    'Departamento de', 'Departament de', 'Dipartimento di',
+    'Faculty of', 'Facultad de',
+    'Unit ', 'Graduate School of', 'Research Unit',
     'Program in', 'Laboratorio', 'Laboratories',
     'Laboratory', 'Genomics Center', 'Haematological',
     'Environmental Engineering', 'Power Engineering', 'Biosystems Engineering',
     'Orthopaedic Department', 'Clinic for', 'Occupational Therapy Department',
-    'Surgery Program'
+    'Surgery Program', 'Council for Scientific',
+    'Biology Department', 'Chemistry Department',
+    'Surgery Department', 'Institute of Psychiatry',
+    'Institute of Anesthesiology', 'Institute of Physics and Astronomy',
+    'Clinique de', 'Residency Program', 'The Centre for Rural',
+    'Istituto di Clinica', 'Institute for Noise', 'Istituto di'
 ])
 
 
@@ -66,7 +73,8 @@ INSTITUTE = frozenset([
     'national park', 'corporation', 'ucl ', 'escola nacional', 'va health system',
     'agri-food', 'agrotech', 'agroforestry', 'umr micalis', 'allan rosenfield',
     'allan wilson', 'allen institute', 'ameripath', 'biotechnologies', 'anaerobe systems',
-    'nhs trust', 'danisco animal', 'dupont industrial', 'laboratory for'
+    'nhs trust', 'danisco animal', 'dupont industrial', 'laboratory for',
+    'a.i.i.m.s.'
 ])
 
 
