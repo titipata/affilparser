@@ -36,7 +36,7 @@ We obtained 190k parsed affiliations string in following format
 
 from Pubmed Open-Access subset using [pubmed_parser](https://github.com/titipata/pubmed_parser).
 We did some preprocessing to make it into tokens in `(text, postag, label)` format before training using
-Conditional Random Field. Example of the training is as follows.
+Conditional Random Field. Example of the training for one affiliation string is as follows.
 
 ```python
 [('Department', 'PROPN', 'department'),
@@ -59,6 +59,14 @@ Conditional Random Field. Example of the training is as follows.
 
 We also made the dataset available in JSON format that you can download
 [here](https://s3-us-west-2.amazonaws.com/affilparser/training_affiliation.json).
+
+
+## Performance
+
+Here we show the rough performance of parser per given string input with
+different token length.
+
+<img src="scripts/performance.png" width="320" />
 
 
 ## Requirements
