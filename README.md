@@ -7,7 +7,7 @@ on how to implement.
 
 ## Usage
 
-You can create class and use `parse` to parse affilition string.
+You can use `parse` method from `AffiliationParser` class to parse affilition string.
 
 ```python
 from affilparser import AffiliationParser
@@ -66,7 +66,18 @@ We also made the dataset available in JSON format that you can download
 Here we show the rough performance of parser per given string input with
 different token length.
 
-<img src="scripts/performance.png" width="320" />
+<img src="evaluation/time_performance.png" width="320" />
+
+
+## Installation
+
+Clone the repository and install using `setup.py`
+
+```bash
+git clone https://github.com/titipata/affilparser
+cd affilparser
+python setup.py install
+```
 
 
 ## Requirements
