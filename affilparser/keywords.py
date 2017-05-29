@@ -14,7 +14,8 @@ DEPARTMENT = frozenset([
     'Institute of Anesthesiology', 'Institute of Physics and Astronomy',
     'Clinique de', 'Residency Program', 'The Centre for Rural',
     'Istituto di Clinica', 'Institute for Noise', 'Istituto di',
-    'Radiology Department',
+    'Radiology Department', 'Neurology Division',
+    'Electronics and Computer Science'
 ])
 
 

@@ -16,6 +16,7 @@ class AffiliationParser(object):
     """
     def __init__(self):
         self.tagger = self.load_model(model_name=MODEL_PATH)
+        self.class_ = ['department', 'institution', 'addr-line', 'zipcode', 'country']
 
     def load_model(self, model_name=MODEL_PATH):
         curdir = os.path.dirname(__file__)
@@ -66,6 +67,7 @@ class AffiliationParser(object):
         Give affiliation text, return list of tokens with
         part-of-speech tag
         """
+        text = re.sub(',\\b', ', ', text)
         tokens = []
         for token in nlp(text):
             tokens.append((token.text.strip(), token.pos_))

@@ -26,5 +26,5 @@ if __name__ == '__main__':
     affiliation_sample = affiliation_df.sample(False, fraction=0.1) # sample from full
     affiliation_df = affiliation_sample.toPandas()
     affiliations_unique = get_unique_affiliation(affiliation_pandas.affiliation)
-    affiliations_eval = pd.DataFrame(affiliations_unique, columns=['affiliation']).sample(n=1200)
+    affiliations_eval = pd.DataFrame(affiliations_unique, columns=['affiliation']).sample(n=1200, random_state=10)
     affiliations_eval.to_csv('affiliation_eval.csv', index=False)
