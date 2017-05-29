@@ -15,7 +15,8 @@ DEPARTMENT = frozenset([
     'Clinique de', 'Residency Program', 'The Centre for Rural',
     'Istituto di Clinica', 'Institute for Noise', 'Istituto di',
     'Radiology Department', 'Neurology Division',
-    'Electronics and Computer Science'
+    'Electronics and Computer Science', 'Physiology and Biophysics',
+    'Neurosurgery Division', 'Diagnostic and Interventional Radiology'
 ])
 
 
@@ -81,7 +82,7 @@ INSTITUTE = frozenset([
 
 
 EMAIL = frozenset([
-    r'email:', r'e-mail:', r'[\w\.-]+@[\w\.-]+'
+    r'[\w\.-]+@[\w\.-]+'
 ])
 
 

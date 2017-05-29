@@ -68,6 +68,9 @@ class AffiliationParser(object):
         part-of-speech tag
         """
         text = re.sub(',\\b', ', ', text)
+        text = re.sub('Electronic address:', ', ', text)
+        text = re.sub('email:', ', ', text)
+
         tokens = []
         for token in nlp(text):
             tokens.append((token.text.strip(), token.pos_))
@@ -138,10 +141,22 @@ class AffiliationParser(object):
                     sep.append((r_prev, r + 1))
                     r_prev = r + 1
         sep.append((r_prev, len(predictions_rm)))
-        if len(sep) > 1:
+
+        # concatenate
+        i = 0
+        sep_concat = []
+        while i < len(sep) - 1:
+            if sep[i][1] - sep[i][0] <= 1:
+                sep_concat.append((sep[i][0], sep[i+1][1]))
+                i += 2
+            else:
+                sep_concat.append((sep[i][0], sep[i][1]))
+                i += 1
+
+        if len(sep_concat) > 1:
             prediction_sep = []
             index = 0
-            for start, end in sep:
+            for start, end in sep_concat:
                 prediction_sep += predictions_rm[index:start]
                 prediction_sep.append(predictions_rm[start:end])
                 index = end
@@ -195,9 +210,9 @@ class AffiliationParser(object):
             if any(isinstance(e, list) for e in prediction_sep):
                 prediction_dict = []
                 for p in prediction_sep:
-                    prediction_sep = self.tuple2dict(p)
-                    prediction_sep.update({'text': text})
-                    prediction_dict.append(self.tuple2dict(p))
+                    p_dict = self.tuple2dict(p)
+                    p_dict.update({'text': text})
+                    prediction_dict.append(p_dict)
             else:
                 prediction_dict = self.tuple2dict(prediction_sep)
                 prediction_dict.update({'text': text})
