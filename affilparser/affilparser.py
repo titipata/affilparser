@@ -16,7 +16,7 @@ class AffiliationParser(object):
     """
     def __init__(self):
         self.tagger = self.load_model(model_name=MODEL_PATH)
-        self.class_ = ['department', 'institution', 'addr-line', 'zipcode', 'country']
+        self.class_ = ['department', 'institution', 'addr-line', 'zipcode', 'country', 'email']
 
     def load_model(self, model_name=MODEL_PATH):
         curdir = os.path.dirname(__file__)
@@ -149,7 +149,30 @@ class AffiliationParser(object):
             prediction_sep = predictions_rm
         return prediction_sep
 
-    def parse(self, text):
+    def tuple2dict(self, prediction_sep):
+        """
+        Turn output prediction tuple to dictionary format
+        """
+        prediction_dict = {k: '' for k in self.class_}
+        for text, tag in prediction_sep:
+            prediction_dict[tag] += text + ' '
+        prediction_dict = {k: v.strip() for k, v in prediction_dict.items()}
+        return prediction_dict
+
+    def parse(self, text, output_type='tuple'):
+        """
+        Parse raw affiliation string
+
+        Input
+        -----
+        text: str, affiliation string from MEDLINE or Pubmed Open-Access
+        output_type: 'tuple' or 'dict'
+
+        Output
+        ------
+        prediction_sep: dict or list, if one affiliation set found, return a
+            parsed dictionary, else return list of parsed affiliation
+        """
         tokens = self.text2token(text)
         word_features = self.token2features(tokens)
         tags_pred = self.tagger.tag(word_features)
@@ -167,4 +190,17 @@ class AffiliationParser(object):
                 prediction_sep = prediction_sep_merge
         else:
             prediction_sep = self.chunk_prediction(prediction_sep)
-        return prediction_sep
+
+        if output_type == 'dict':
+            if any(isinstance(e, list) for e in prediction_sep):
+                prediction_dict = []
+                for p in prediction_sep:
+                    prediction_sep = self.tuple2dict(p)
+                    prediction_sep.update({'text': text})
+                    prediction_dict.append(self.tuple2dict(p))
+            else:
+                prediction_dict = self.tuple2dict(prediction_sep)
+                prediction_dict.update({'text': text})
+            return prediction_dict
+        else:
+            return prediction_sep
