@@ -1,6 +1,6 @@
 DEPARTMENT = frozenset([
     'Section of', 'Section for', 'Division of', 'Department of', 'Departamento de',
-    'Department for', 'Departments of', 'Departments for', 'Dept of ', 'Key Lab of ',
+    'Department for', 'Departments of', 'Departments for', 'Dept of ', 'Dept. of ', 'Key Lab of ',
     'Departamento de', 'Departament de', 'Dipartimento di',
     'Faculty of', 'Facultad de',
     'Unit ', 'Graduate School of', 'Research Unit',
