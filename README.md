@@ -59,39 +59,6 @@ Conditional Random Field. Example of the training for one affiliation string is 
 We also made the dataset available in JSON format that you can download
 [here](https://s3-us-west-2.amazonaws.com/affilparser/training_affiliation.json).
 
-## Performance on [Grobid dataset](https://github.com/kermitt2/grobid)
-
-From the root of the repository, run
-
-`
-PYTHONPATH='.' python evaluation/evaluate.py
-`
-
-and you should see the following results:
-
-
-```
-            precision     recall      f1-score      support
-
-address     0.712         0.623       0.664         602
-department  0.734         0.775       0.754         1953
-city        0.632         0.659       0.645         443
-institution 0.685         0.700       0.692         1937
-postal_box  0.891         0.781       0.832         73
-postal_code 0.853         0.857       0.855         203
-country     0.930         0.913       0.922         450
-state       0.838         0.779       0.807         172
-
-avg / total 0.732         0.739       0.735         5833
-```
-
-## Performance
-
-Here we show the rough performance of parser per given string input with
-different token length.
-
-<img src="evaluation/time_performance.png" width="320" />
-
 
 ## Installation
 

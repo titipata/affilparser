@@ -7,10 +7,11 @@ Grobid project: https://github.com/kermitt2/grobid
 """
 
 
+import os
+import re
 import tarfile
 from bs4 import BeautifulSoup
 import pandas as pd
-import re
 
 
 def parse_affil(affiliation_node):
@@ -55,5 +56,5 @@ def parse_grobid(tar_gz_path):
 
 
 if __name__ == "__main__":
-    grobid_df = pd.DataFrame(parse_grobid('../data/grobid_affiliations.tar.gz'))
+    grobid_df = pd.DataFrame(parse_grobid(os.path.join('..', 'data', 'grobid_affiliations.tar.gz')))
     grobid_df.to_csv('affiliations_grobid.csv', index=False)
