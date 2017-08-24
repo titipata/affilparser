@@ -1,0 +1,5 @@
+include LICENSE.txt
+include README.md
+
+# Include the data files
+include affilparser/model/affilparser.crfsuite
